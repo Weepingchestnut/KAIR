@@ -20,7 +20,6 @@ from utils.utils_dist import get_dist_info, init_dist
 from data.select_dataset import define_Dataset
 from models.select_model import define_Model
 
-
 '''
 # --------------------------------------------
 # training code for VRT
@@ -29,7 +28,6 @@ from models.select_model import define_Model
 
 
 def main(json_path='options/vrt/001_train_vrt_videosr_bi_reds_6frames.json'):
-
     '''
     # ----------------------------------------
     # Step--1 (prepare opt)
@@ -51,7 +49,7 @@ def main(json_path='options/vrt/001_train_vrt_videosr_bi_reds_6frames.json'):
     if opt['dist']:
         init_dist('pytorch')
     opt['rank'], opt['world_size'] = get_dist_info()
-    
+
     if opt['rank'] == 0:
         util.mkdirs((path for key, path in opt['path'].items() if 'pretrained' not in key))
 
@@ -88,7 +86,7 @@ def main(json_path='options/vrt/001_train_vrt_videosr_bi_reds_6frames.json'):
     # ----------------------------------------
     if opt['rank'] == 0:
         logger_name = 'train'
-        utils_logger.logger_info(logger_name, os.path.join(opt['path']['log'], logger_name+'.log'))
+        utils_logger.logger_info(logger_name, os.path.join(opt['path']['log'], logger_name + '.log'))
         logger = logging.getLogger(logger_name)
         logger.info(option.dict2str(opt))
 
@@ -124,9 +122,9 @@ def main(json_path='options/vrt/001_train_vrt_videosr_bi_reds_6frames.json'):
                 train_sampler = DistributedSampler(train_set, shuffle=dataset_opt['dataloader_shuffle'],
                                                    drop_last=True, seed=seed)
                 train_loader = DataLoader(train_set,
-                                          batch_size=dataset_opt['dataloader_batch_size']//opt['num_gpu'],
+                                          batch_size=dataset_opt['dataloader_batch_size'] // opt['num_gpu'],
                                           shuffle=False,
-                                          num_workers=dataset_opt['dataloader_num_workers']//opt['num_gpu'],
+                                          num_workers=dataset_opt['dataloader_num_workers'] // opt['num_gpu'],
                                           drop_last=True,
                                           pin_memory=True,
                                           sampler=train_sampler)
@@ -303,6 +301,7 @@ def main(json_path='options/vrt/001_train_vrt_videosr_bi_reds_6frames.json'):
                 logger.info('Finish training.')
                 model.save(current_step)
                 sys.exit()
+
 
 if __name__ == '__main__':
     main()
