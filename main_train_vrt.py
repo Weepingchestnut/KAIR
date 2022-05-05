@@ -28,11 +28,11 @@ from models.select_model import define_Model
 
 
 def main(json_path='options/vrt/001_train_vrt_videosr_bi_reds_6frames.json'):
-    '''
+    """
     # ----------------------------------------
     # Step--1 (prepare opt)
     # ----------------------------------------
-    '''
+    """
 
     parser = argparse.ArgumentParser()
     parser.add_argument('--opt', type=str, default=json_path, help='Path to option JSON file.')
